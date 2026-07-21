@@ -1,0 +1,38 @@
+[
+  {
+    "id": "CASE-001",
+    "slug": "krasue_case",
+    "title": "แฟ้มคดีที่ 001: ถอดรหัสปรากฏการณ์พยาธิวิทยากับความเชื่อ (คดีกระสือ)",
+    "subtitle": "Krasue Pathological & Folklore Case File",
+    "period": "1978 - 2025",
+    "status": "OPEN / UNRESOLVED",
+    "securityLevel": "CONFIDENTIAL",
+    "totalDocs": 12,
+    "thumbnail": "assets/case01_cover.jpg",
+    "summary": "การสืบสวนระบาดวิทยาภาวะโลหิตจางฉับพลันในหญิงตั้งครรภ์ คดีสัตว์เลี้ยงถูกสูบเลือดในเล้าปิดตาย และหลักฐานเอนไซม์ปรสิตปริศนาในชัยภูมิและปทุมธานี"
+  },
+  {
+    "id": "CASE-002",
+    "slug": "krahang_case",
+    "title": "แฟ้มคดีที่ 002: การอากาศยานและวัตถุบินไร้ที่มา (คดีกระหัง)",
+    "subtitle": "Krahang Nocturnal Aeronautical Anomaly",
+    "period": "1988 - 2021",
+    "status": "CLASSIFIED",
+    "securityLevel": "RESTRICTED",
+    "totalDocs": 0,
+    "thumbnail": "assets/case02_cover.jpg",
+    "summary": "บันทึกวัตถุบินประหลาดขนาดใหญ่ระดับต่ำในป่าเขื่อนขุนด่าน และการค้นพบซากโครงกระดูกปีกไม้ไผ่สานความถี่สูง"
+  },
+  {
+    "id": "CASE-003",
+    "slug": "pob_case",
+    "title": "แฟ้มคดีที่ 003: ภาวะอุปาทานหมู่และการติดเชื้อทางประสาท (คดีปอบ)",
+    "subtitle": "Pob Mass Hysteria & Parasitic Outbreak",
+    "period": "1995 - 2024",
+    "status": "RESTRICTED",
+    "securityLevel": "RESTRICTED",
+    "totalDocs": 0,
+    "thumbnail": "assets/case03_cover.jpg",
+    "summary": "การระบาดของพฤติกรรมกินของดิบผิดปกติในหมู่บ้านอีสานใต้ และสารเคมีออกฤทธิ์ต่อจิตประสาทในน้ำบ่อโบราณ"
+  }
+]

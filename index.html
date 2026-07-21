@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ARCHIVE SYSTEM v4.09 // CLASSIFIED CASE FILES</title>
+  <meta name="description" content="แอปพลิเคชันคลังแฟ้มเอกสารสืบสวนคดีลับสไตล์ Mockumentary / Found Footage">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600;700&family=Sarabun:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Special+Elite&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Marked.js for Markdown parsing -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="theme-dark">
+  <div id="app-container">
+    
+    <!-- Top Bar Navigation Header -->
+    <header class="app-header">
+      <div class="header-left">
+        <button id="sidebar-toggle-btn" class="mobile-toggle-btn" aria-label="Toggle Menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <div class="brand" id="brand-logo-btn" style="cursor: pointer;">
+          <i class="fa-solid fa-folder-closed brand-icon"></i>
+          <div>
+            <h1 class="app-title">CASE ARCHIVE SYSTEM</h1>
+            <span class="app-subtitle">NATIONAL PARANORMAL DATABASE // RESTRICTED ACCESS</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-nav-center">
+        <button id="nav-home-btn" class="nav-btn active">
+          <i class="fa-solid fa-house"></i> หน้าหลัก (HOME)
+        </button>
+      </div>
+      
+      <div class="header-status">
+        <span class="status-badge live-blink"><i class="fa-solid fa-shield-halved"></i> <span id="security-level-display">CLEARANCE: LEVEL 4</span></span>
+        <span class="system-clock" id="system-clock">00:00:00 UTC</span>
+      </div>
+    </header>
+
+    <!-- VIEW 1: HOME PAGE LANDING (Case Selection Vault) -->
+    <section id="home-view" class="home-container">
+      <div class="home-hero">
+        <div class="hero-badge">RESTRICTED EVIDENCE ARCHIVE PORTAL</div>
+        <h2 class="hero-title">ศูนย์รวมคลังแฟ้มคดีปริศนาและนิติวิทยาศาสตร์</h2>
+        <p class="hero-desc">โปรดเลือกแฟ้มคดีที่ต้องการสืบสวนด้านล่าง เพื่อเข้าสู่ระบบถอดรหัสเอกสารหลักฐานและบันทึกเหตุการณ์ฉบับเต็ม</p>
+      </div>
+
+      <div class="cases-grid-header">
+        <span>รายการแฟ้มคดีในระบบ (<span id="cases-count">0</span>)</span>
+      </div>
+
+      <div id="cases-cards-grid" class="cases-grid">
+        <!-- Dynamically populated case cards -->
+      </div>
+    </section>
+
+    <!-- VIEW 2: READER VIEW (Document Reader & Paper View) -->
+    <div id="reader-view" class="main-layout hidden">
+      
+      <!-- Backdrop for Mobile Sidebar Drawer -->
+      <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+
+      <!-- Left Sidebar: Multi-Case Selection & Document Index -->
+      <aside class="sidebar" id="sidebar">
+        
+        <!-- Case Selector Dropdown -->
+        <div class="case-selection-box">
+          <label class="filter-label"><i class="fa-solid fa-briefcase"></i> สลับแฟ้มคดี (SWITCH CASE):</label>
+          <select id="case-selector" class="custom-select case-dropdown">
+            <!-- Dynamically populated cases -->
+          </select>
+          <div class="current-case-info" id="current-case-info">
+            <span class="case-badge" id="case-badge-id">CASE-001</span>
+            <span class="case-period" id="case-period-text">1978 - 2025</span>
+          </div>
+        </div>
+
+        <div class="sidebar-search">
+          <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="search-input" placeholder="ค้นหารหัส, ชื่อเอกสาร, หรือคีย์เวิร์ด...">
+          </div>
+        </div>
+
+        <div class="filter-section">
+          <label class="filter-label">ประเภทเอกสาร (Type):</label>
+          <select id="filter-type" class="custom-select">
+            <option value="ALL">-- ทั้งหมด (ALL TYPES) --</option>
+          </select>
+
+          <label class="filter-label">ระดับชั้นความลับ (Clearance):</label>
+          <div class="filter-chips">
+            <button class="chip active" data-clearance="ALL">ทั้งหมด</button>
+            <button class="chip" data-clearance="CONFIDENTIAL">CONFIDENTIAL</button>
+            <button class="chip" data-clearance="RESTRICTED">RESTRICTED</button>
+            <button class="chip" data-clearance="UNCLASSIFIED">UNCLASSIFIED</button>
+          </div>
+        </div>
+
+        <div class="document-list-header">
+          <span>รายการแฟ้มเอกสาร (<span id="doc-count">0</span>)</span>
+        </div>
+
+        <ul class="document-list" id="document-list">
+          <!-- Dynamically populated document items -->
+        </ul>
+      </aside>
+
+      <!-- Main Viewer Area: Responsive Document Display -->
+      <main class="viewer-container">
+        
+        <!-- Document Toolbar Controls -->
+        <div class="document-toolbar">
+          <div class="toolbar-left">
+            <button id="back-to-home-btn" class="tool-btn">
+              <i class="fa-solid fa-arrow-left"></i> กลับหน้าเลือกคดี
+            </button>
+            <button id="toggle-view-mode" class="tool-btn active">
+              <i class="fa-solid fa-scroll"></i> Paper Mode
+            </button>
+            <button id="toggle-redact" class="tool-btn">
+              <i class="fa-solid fa-eye-slash"></i> เซ็นเซอร์
+            </button>
+          </div>
+          <div class="toolbar-right">
+            <button id="print-doc-btn" class="tool-btn">
+              <i class="fa-solid fa-print"></i> พิมพ์
+            </button>
+          </div>
+        </div>
+
+        <!-- Document Viewer Wrapper -->
+        <div id="paper-wrapper" class="paper-mode">
+          
+          <!-- Realistic Classified Paper Surface -->
+          <article class="classified-paper" id="paper-surface">
+            
+            <!-- Confidential Rubber Stamps Overlay -->
+            <div class="stamp stamp-top-secret" id="stamp-badge">TOP SECRET</div>
+            <div class="paper-texture-overlay"></div>
+            
+            <!-- Document Header Metadata Bar -->
+            <div class="doc-header-meta">
+              <div class="meta-row">
+                <span class="meta-item"><strong>CASE FILE ID:</strong> <span id="doc-meta-id">---</span></span>
+                <span class="meta-item"><strong>DATE:</strong> <span id="doc-meta-date">---</span></span>
+              </div>
+              <div class="meta-row">
+                <span class="meta-item"><strong>CLASSIFICATION:</strong> <span id="doc-meta-clearance" class="clearance-tag">---</span></span>
+                <span class="meta-item"><strong>SOURCE:</strong> <span id="doc-meta-author">---</span></span>
+              </div>
+              <div class="meta-row">
+                <span class="meta-item"><strong>LOCATION:</strong> <span id="doc-meta-location">---</span></span>
+                <span class="meta-item"><strong>RELIABILITY SCORE:</strong> <span id="doc-meta-reliability">★ ★ ★ ★ ★</span></span>
+              </div>
+            </div>
+
+            <hr class="doc-divider">
+
+            <!-- Audio Cassette Log Player (Conditional Component) -->
+            <div class="audio-player-card hidden" id="audio-player-card">
+              <div class="cassette-tape">
+                <i class="fa-solid fa-tape cassette-icon"></i>
+                <div class="tape-info">
+                  <span class="tape-title">AUDIO EVIDENCE RECORDING // ATTACHMENT</span>
+                  <span class="tape-status" id="audio-status">STOPPED</span>
+                </div>
+              </div>
+              <audio id="doc-audio-element" controls></audio>
+            </div>
+
+            <!-- Main Rendered Content Body -->
+            <div class="doc-content-body" id="doc-content-body">
+              <p class="placeholder-text">กำลังโหลดแฟ้มเอกสาร...</p>
+            </div>
+
+            <!-- Footer Stamp and Watermark -->
+            <div class="doc-footer-meta">
+              <div class="official-seal">DEPT OF SPECIAL INVESTIGATION // CLASSIFIED ARCHIVE FILE</div>
+              <div class="watermark-text">DO NOT DUPLICATE - PROPERTY OF INVESTIGATION BUREAU</div>
+            </div>
+            
+          </article>
+        </div>
+      </main>
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
