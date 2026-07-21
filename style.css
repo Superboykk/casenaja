@@ -262,14 +262,20 @@ body {
 .document-list {
   list-style: none;
   overflow-y: auto;
+  overflow-x: hidden;
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 .doc-item {
+  width: 100%;
   padding: 12px 16px;
   border-bottom: 1px solid var(--border-color);
   cursor: pointer;
   transition: background 0.15s;
+  box-sizing: border-box;
 }
 
 .doc-item:hover {
@@ -492,6 +498,28 @@ body {
 
 .doc-content-body p {
   margin-bottom: 14px;
+}
+
+.doc-content-body pre {
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  padding: 12px 16px;
+  font-family: var(--typewriter-font);
+  font-size: 0.85rem;
+  color: #1a1a1a;
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin: 16px 0;
+}
+
+.doc-content-body code {
+  font-family: var(--typewriter-font);
+  background: rgba(0, 0, 0, 0.06);
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 0.85rem;
+  color: #1a1a1a;
 }
 
 /* Audio Player Component */

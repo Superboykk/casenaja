@@ -293,8 +293,8 @@ async function selectDocument(id) {
 
     let rawText = await res.text();
 
-    // Strip Frontmatter if present
-    rawText = rawText.replace(/^---[\s\S]*?---/, '').trim();
+    // Strip Frontmatter if present (BOM and whitespace safe)
+    rawText = rawText.replace(/^\uFEFF?[\s\n\r]*---[\s\S]*?---/, '').trim();
 
     // Transform [REDACTED] or [REDACTED text] into HTML tags
     let processedText = rawText.replace(/\[REDACTED(.*?)\]/gi, (match, p1) => {
