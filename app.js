@@ -291,7 +291,16 @@ async function selectDocument(id) {
       res = await fetch(docUrl);
     }
 
+    if (!res.ok) {
+      throw new Error(`HTTP ${res.status}`);
+    }
+
     let rawText = await res.text();
+
+    // Check if response returned HTML 404/error page instead of markdown
+    if (rawText.trim().startsWith('<!DOCTYPE') || rawText.trim().startsWith('<html')) {
+      throw new Error(`File not found or invalid format (${doc.filename})`);
+    }
 
     // Strip Frontmatter if present (BOM and whitespace safe)
     rawText = rawText.replace(/^\uFEFF?[\s\n\r]*---[\s\S]*?---/, '').trim();
@@ -303,8 +312,10 @@ async function selectDocument(id) {
     });
 
     // Parse Markdown using Marked.js if loaded
-    if (window.marked) {
-      bodyEl.innerHTML = marked.parse(processedText);
+    if (window.marked && typeof window.marked.parse === 'function') {
+      bodyEl.innerHTML = window.marked.parse(processedText);
+    } else if (typeof window.marked === 'function') {
+      bodyEl.innerHTML = window.marked(processedText);
     } else {
       bodyEl.innerHTML = `<pre>${processedText}</pre>`;
     }
@@ -317,7 +328,8 @@ async function selectDocument(id) {
     });
 
   } catch (err) {
-    bodyEl.innerHTML = `<p style="color:red;">[ERROR] ไม่สามารถโหลดไฟล์เนื้อหา ${doc.filename} ได้</p>`;
+    console.error(err);
+    bodyEl.innerHTML = `<p style="color:red; text-align:center; padding: 20px;">[ERROR] ไม่สามารถโหลดไฟล์เนื้อหา ${doc.filename} ได้ (${err.message})</p>`;
   }
 }
 
